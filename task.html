@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RespiChat - Formal Email Chat</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #3a8dff;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .email-container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 850px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+        }
+
+        .email-header {
+            background-color: #3a8dff;
+            padding: 20px;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .email-info span {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .email-body {
+            padding: 20px;
+            background-color: #f9fafb;
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 350px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            width: fit-content;
+            max-width: 70%;
+        }
+
+        .sender {
+            background-color: #d0f8e8;
+            align-self: flex-start;
+        }
+
+        .receiver {
+            background-color: #e3f2fd;
+            align-self: flex-end;
+        }
+
+        .email-footer {
+            background-color: #f7f9fc;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        textarea {
+            width: 75%;
+            height: 45px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-size: 14px;
+            color: #333;
+            background-color: #f4f6f9;
+        }
+
+        button {
+            background-color: #3a8dff;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #3377cc;
+        }
+
+        .input-form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .input-form input, .input-form textarea {
+            padding: 12px;
+            margin: 6px;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-size: 14px;
+            color: #333;
+            background-color: #f9fafb;
+        }
+
+        @media (max-width: 768px) {
+            .input-form input, .input-form textarea {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>RespiChat</h1>
+
+    <div class="input-form">
+        <input type="email" id="yourEmail" placeholder="Your Email Address" required>
+        <input type="email" id="senderEmail" placeholder="Sender's Email Address" required>
+        <input type="email" id="receiverEmail" placeholder="Receiver's Email Address" required>
+        <input type="text" id="emailSubject" placeholder="Subject" required>
+        <textarea id="initialMessage" placeholder="Initial message" required></textarea>
+        <button id="submitDetails">Submit</button>
+    </div>
+
+    <div class="email-container" style="display: none;" id="emailContainer">
+        <div class="email-header">
+            <div class="email-info">
+                <span><strong>Your Email:</strong> <span id="yourEmailDisplay">example@domain.com</span></span>
+                <span><strong>Sender's Email:</strong> <span id="senderEmailDisplay">sender@domain.com</span></span>
+                <span><strong>Receiver's Email:</strong> <span id="receiverEmailDisplay">receiver@domain.com</span></span>
+                <span><strong>Subject:</strong> <span id="subjectDisplay">Hello, how are you?</span></span>
+            </div>
+        </div>
+
+        <div class="email-body" id="emailBody">
+            <div class="message sender">
+                <p><strong><span id="senderEmailDisplayText">sender@domain.com</span>:</strong> <span id="initialMessageText">Hi there! How have you been?</span></p>
+            </div>
+        </div>
+
+        <div class="email-footer">
+            <textarea id="messageInput" placeholder="Type a message..."></textarea>
+            <button id="sendBtn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('submitDetails').addEventListener('click', function () {
+            const yourEmail = document.getElementById('yourEmail').value;
+            const senderEmail = document.getElementById('senderEmail').value;
+            const receiverEmail = document.getElementById('receiverEmail').value;
+            const emailSubject = document.getElementById('emailSubject').value;
+            const initialMessage = document.getElementById('initialMessage').value;
+
+            if (yourEmail && senderEmail && receiverEmail && emailSubject && initialMessage) {
+                document.getElementById('yourEmailDisplay').textContent = yourEmail;
+                document.getElementById('senderEmailDisplay').textContent = senderEmail;
+                document.getElementById('receiverEmailDisplay').textContent = receiverEmail;
+                document.getElementById('subjectDisplay').textContent = emailSubject;
+                document.getElementById('initialMessageText').textContent = initialMessage;
+                document.getElementById('senderEmailDisplayText').textContent = senderEmail;
+
+                document.querySelector('.input-form').style.display = 'none';
+                document.getElementById('emailContainer').style.display = 'block';
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+
+        document.getElementById('sendBtn').addEventListener('click', function () {
+            const messageInput = document.getElementById('messageInput');
+            const messageText = messageInput.value.trim();
+
+            if (messageText) {
+                const messageContainer = document.createElement('div');
+                messageContainer.classList.add('message', 'sender');
+                messageContainer.innerHTML = `<strong>${document.getElementById('senderEmailDisplay').textContent}:</strong> ${messageText}`;
+
+                const emailBody = document.querySelector('#emailBody');
+                emailBody.appendChild(messageContainer);
+
+                messageInput.value = '';
+                emailBody.scrollTop = emailBody.scrollHeight;
+            }
+        });
+    </script>
+
+</body>
+</html>
+
